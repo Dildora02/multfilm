@@ -1,4 +1,4 @@
-streamlit==1.25.0  # Streamlit uchun UI
-numpy==1.23.5      # Matematika va massivlar ishlov berish uchun
-opencv-python==4.8.0.74  # OpenCV funksiyalari uchun
-Pillow==9.5.0      # Tasvirlar bilan ishlash uchun
+opencv-python-headless==4.8.0.74
+streamlit==1.25.0
+numpy==1.23.5
+Pillow==9.5.0
