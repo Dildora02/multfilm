@@ -1,4 +1,52 @@
-﻿# # File: cartoonizer_app.py
+﻿if uploaded_file:
+    image = Image.open(uploaded_file)
+    st.image(image, caption="Uploaded Image", use_column_width=False)
+    img_array = np.array(image)
+    
+    style = st.selectbox("Choose Cartoon Style", ["Style1", "Style2", "Style3", "Style4", "Style5", "Style6", "Style7", "Style8", "Style9", "Style10", "Style11", "Style12"])
+    
+    if st.button("Cartoonize"):
+        if style == "Style1":
+            cartoon = cartoonize_1(img_array, 8)
+        elif style == "Style2":
+            cartoon = cartoonize_2(img_array)
+        elif style == "Style3":
+            cartoon = cartoonize_3(img_array)
+        elif style == "Style4":
+            cartoon = cartoonize_4(img_array)
+        elif style == "Style5":
+            cartoon = cartoonize_5(img_array, 5)
+        elif style == "Style6":
+            cartoon = cartoonize_6(img_array)
+        elif style == "Style7":
+            cartoon = cartoonize_7(img_array)
+        elif style == "Style8":
+            cartoon = cartoonize_8(img_array)
+        elif style == "Style9":
+            cartoon = cartoonize_9(img_array)
+        elif style == "Style10":
+            cartoon = cartoonize_10(img_array)
+        elif style == "Style11":
+            cartoon = cartoonize_11(img_array)
+        elif style == "Style12":
+            cartoon = cartoonize_12(img_array)
+        
+        result_path = os.path.join(download_folder, "cartoonized_image.jpg")
+        cv2.imwrite(result_path, cv2.cvtColor(cartoon, cv2.COLOR_RGB2BGR))
+        
+        st.image(cartoon, caption="Cartoonized Image", use_column_width=False)
+        
+        with open(result_path, "rb") as file:
+            btn = st.download_button(
+                label="Download Cartoonized Image",
+                data=file,
+                file_name="cartoonized_image.jpg",
+                mime="image/jpeg"
+            )
+
+
+
+# # File: cartoonizer_app.py
 # import os
 # import numpy as np
 # import cv2
@@ -88,54 +136,54 @@
 #         st.image(cartoon, caption=f"Cartoonized Image ({style})", use_column_width=True)
 #         st.success(f"Cartoonized image saved to {result_path}!")
 
-import os
-import numpy as np
-import cv2
-import streamlit as st
-from PIL import Image
+# import os
+# import numpy as np
+# import cv2
+# import streamlit as st
+# from PIL import Image
 
-download_folder = "cartoon_images"
-os.makedirs(download_folder, exist_ok=True)
+# download_folder = "cartoon_images"
+# os.makedirs(download_folder, exist_ok=True)
 
-def cartoonize_1(img, k):
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    edges = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 9, 8)
-    data = np.float32(img).reshape((-1, 3))
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 20, 1.0)
-    _, label, center = cv2.kmeans(data, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
-    center = np.uint8(center)
-    result = center[label.flatten()].reshape(img.shape)
-    blurred = cv2.medianBlur(result, 3)
-    cartoon = cv2.bitwise_and(blurred, blurred, mask=edges)
-    return cartoon
+# def cartoonize_1(img, k):
+#     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+#     edges = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 9, 8)
+#     data = np.float32(img).reshape((-1, 3))
+#     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 20, 1.0)
+#     _, label, center = cv2.kmeans(data, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+#     center = np.uint8(center)
+#     result = center[label.flatten()].reshape(img.shape)
+#     blurred = cv2.medianBlur(result, 3)
+#     cartoon = cv2.bitwise_and(blurred, blurred, mask=edges)
+#     return cartoon
 
-st.title("Cartoonizer App")
-st.write("Upload an image to apply cartoon effects!")
+# st.title("Cartoonizer App")
+# st.write("Upload an image to apply cartoon effects!")
 
-uploaded_file = st.file_uploader("Choose an image file", type=["jpg", "png", "jpeg"])
+# uploaded_file = st.file_uploader("Choose an image file", type=["jpg", "png", "jpeg"])
 
-if uploaded_file:
-    image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_column_width=False)  # Original size
-    img_array = np.array(image)
+# if uploaded_file:
+#     image = Image.open(uploaded_file)
+#     st.image(image, caption="Uploaded Image", use_column_width=False)  # Original size
+#     img_array = np.array(image)
     
-    style = st.selectbox("Choose Cartoon Style", ["Style1"])
+#     style = st.selectbox("Choose Cartoon Style", ["Style1"])
     
-    if st.button("Cartoonize"):
-        cartoon = cartoonize_1(img_array, 8)
+#     if st.button("Cartoonize"):
+#         cartoon = cartoonize_1(img_array, 8)
         
-        result_path = os.path.join(download_folder, "cartoonized_image.jpg")
-        cv2.imwrite(result_path, cv2.cvtColor(cartoon, cv2.COLOR_RGB2BGR))
+#         result_path = os.path.join(download_folder, "cartoonized_image.jpg")
+#         cv2.imwrite(result_path, cv2.cvtColor(cartoon, cv2.COLOR_RGB2BGR))
         
-        st.image(cartoon, caption="Cartoonized Image", use_column_width=False)
+#         st.image(cartoon, caption="Cartoonized Image", use_column_width=False)
         
-        with open(result_path, "rb") as file:
-            btn = st.download_button(
-                label="Download Cartoonized Image",
-                data=file,
-                file_name="cartoonized_image.jpg",
-                mime="image/jpeg"
-            )
+#         with open(result_path, "rb") as file:
+#             btn = st.download_button(
+#                 label="Download Cartoonized Image",
+#                 data=file,
+#                 file_name="cartoonized_image.jpg",
+#                 mime="image/jpeg"
+#             )
 
 # # coding=utf-8
 # import sys
