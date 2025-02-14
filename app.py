@@ -1,4 +1,10 @@
-﻿if uploaded_file:
+﻿import os
+import numpy as np
+import cv2
+import streamlit as st
+from PIL import Image
+
+if uploaded_file:
     image = Image.open(uploaded_file)
     st.image(image, caption="Uploaded Image", use_column_width=False)
     img_array = np.array(image)
@@ -47,11 +53,7 @@
 
 
 # # File: cartoonizer_app.py
-# import os
-# import numpy as np
-# import cv2
-# import streamlit as st
-# from PIL import Image
+
 
 # # Define paths
 # UPLOAD_FOLDER = "uploads"
